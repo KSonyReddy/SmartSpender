@@ -1,0 +1,633 @@
+/* ==================== Global Styles ==================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Primary Colors */
+    --primary-color: #667eea;
+    --primary-dark: #5568d3;
+    --primary-light: #8a9df5;
+
+    /* Secondary Colors */
+    --secondary-color: #764ba2;
+    --secondary-light: #9b6db7;
+
+    /* Neutral Colors */
+    --white: #ffffff;
+    --light-gray: #f5f7fa;
+    --gray: #e0e6ed;
+    --dark-gray: #8391a7;
+    --text-dark: #2c3e50;
+
+    /* Status Colors */
+    --success: #10b981;
+    --error: #ef4444;
+    --warning: #f59e0b;
+    --info: #3b82f6;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+
+    /* Transitions */
+    --transition-fast: 0.15s ease-in-out;
+    --transition-normal: 0.3s ease-in-out;
+    --transition-slow: 0.5s ease-in-out;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+/* ==================== Auth Container ==================== */
+.auth-container {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Background Decoration */
+.bg-decoration {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    filter: blur(3px);
+    pointer-events: none;
+}
+
+.bg-decoration::after {
+    content: '';
+    position: absolute;
+    bottom: -100px;
+    right: -100px;
+    width: 250px;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    filter: blur(3px);
+}
+
+/* ==================== Auth Card ==================== */
+.auth-card {
+    background: var(--white);
+    border-radius: 20px;
+    box-shadow: var(--shadow-xl);
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    position: relative;
+    z-index: 10;
+    animation: slideUp var(--transition-slow) ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==================== Auth Header ==================== */
+.auth-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: var(--white);
+    padding: 40px 30px 30px;
+    text-align: center;
+}
+
+.app-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+.app-subtitle {
+    font-size: 1rem;
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+/* ==================== Role Toggle ==================== */
+.role-toggle-container {
+    display: flex;
+    gap: 12px;
+    padding: 24px 30px;
+    background: var(--light-gray);
+    border-bottom: 1px solid var(--gray);
+    justify-content: center;
+}
+
+.role-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: 2px solid transparent;
+    background: var(--white);
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+    transition: all var(--transition-normal);
+    box-shadow: var(--shadow-sm);
+}
+
+.role-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.role-toggle.active {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: var(--white);
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow-md);
+}
+
+.role-icon {
+    font-size: 1.2rem;
+}
+
+/* ==================== Form Container ==================== */
+.form-container {
+    padding: 40px 30px;
+    position: relative;
+    min-height: 400px;
+}
+
+/* ==================== Auth Form ==================== */
+.auth-form {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
+    max-width: 400px;
+    left: 50%;
+    top: 40px;
+    transform: translateX(-50%) translateY(20px);
+    transition: all var(--transition-normal);
+}
+
+.auth-form.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateX(-50%) translateY(0);
+}
+
+.auth-form h2 {
+    font-size: 1.75rem;
+    margin-bottom: 24px;
+    color: var(--text-dark);
+    text-align: center;
+}
+
+/* ==================== Form Group ==================== */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+}
+
+/* ==================== Input Wrapper ==================== */
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: var(--light-gray);
+    border: 2px solid var(--gray);
+    border-radius: 12px;
+    transition: all var(--transition-normal);
+    overflow: hidden;
+}
+
+.input-wrapper:focus-within {
+    border-color: var(--primary-color);
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.input-wrapper.error {
+    border-color: var(--error);
+    background: rgba(239, 68, 68, 0.05);
+}
+
+.input-wrapper.error:focus-within {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.input-wrapper.success {
+    border-color: var(--success);
+}
+
+.input-icon {
+    padding: 0 12px;
+    font-size: 1.2rem;
+    opacity: 0.6;
+    transition: opacity var(--transition-fast);
+}
+
+.input-wrapper:focus-within .input-icon {
+    opacity: 1;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'] {
+    flex: 1;
+    padding: 12px 0;
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    color: var(--text-dark);
+    outline: none;
+    font-family: inherit;
+}
+
+input::placeholder {
+    color: var(--dark-gray);
+    opacity: 0.7;
+}
+
+/* ==================== Password Toggle ==================== */
+.password-toggle {
+    background: none;
+    border: none;
+    padding: 0 12px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    opacity: 0.6;
+    transition: opacity var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.password-toggle:hover {
+    opacity: 1;
+}
+
+/* ==================== Password Strength ==================== */
+.password-strength {
+    margin-top: 8px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 0.8rem;
+    color: var(--dark-gray);
+}
+
+.strength-bar {
+    flex: 1;
+    height: 4px;
+    background: var(--gray);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.strength-bar::after {
+    content: '';
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: var(--gray);
+    border-radius: 2px;
+    transition: width var(--transition-normal), background-color var(--transition-normal);
+}
+
+input:focus ~ .password-strength .strength-bar::after {
+    width: 30%;
+    background: var(--error);
+}
+
+input[data-strength='weak'] ~ .password-strength .strength-bar::after {
+    width: 33%;
+    background: var(--error);
+}
+
+input[data-strength='medium'] ~ .password-strength .strength-bar::after {
+    width: 66%;
+    background: var(--warning);
+}
+
+input[data-strength='strong'] ~ .password-strength .strength-bar::after {
+    width: 100%;
+    background: var(--success);
+}
+
+/* ==================== Error Message ==================== */
+.error-message {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.85rem;
+    color: var(--error);
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+    min-height: 18px;
+}
+
+.error-message.show {
+    opacity: 1;
+}
+
+/* ==================== Auth Button ==================== */
+.auth-button {
+    width: 100%;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: var(--white);
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 24px;
+}
+
+.auth-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.auth-button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.auth-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.button-loader {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ==================== Form Message ==================== */
+.form-message {
+    margin-top: 16px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    animation: slideDown var(--transition-normal) ease-out;
+}
+
+.form-message.success {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+    border-left: 4px solid var(--success);
+}
+
+.form-message.error {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--error);
+    border-left: 4px solid var(--error);
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==================== Form Toggle ==================== */
+.form-toggle {
+    text-align: center;
+    margin-top: 20px;
+    color: var(--dark-gray);
+    font-size: 0.95rem;
+}
+
+.toggle-link,
+.link-button {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-decoration: underline;
+    font-size: inherit;
+    font-family: inherit;
+    padding: 0;
+    margin-left: 4px;
+}
+
+.toggle-link:hover,
+.link-button:hover {
+    color: var(--secondary-color);
+    opacity: 0.8;
+}
+
+/* ==================== Forgot Password ==================== */
+.forgot-password {
+    text-align: center;
+    margin-top: 16px;
+}
+
+/* ==================== Demo Info ==================== */
+.demo-info {
+    background: rgba(59, 130, 246, 0.05);
+    border-top: 1px solid var(--gray);
+    padding: 16px 30px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--dark-gray);
+}
+
+.demo-info p {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.demo-info small {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+/* ==================== Responsive Design ==================== */
+@media (max-width: 600px) {
+    .auth-card {
+        border-radius: 16px;
+    }
+
+    .auth-header {
+        padding: 30px 20px 24px;
+    }
+
+    .app-title {
+        font-size: 2rem;
+    }
+
+    .app-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .role-toggle-container {
+        padding: 16px 20px;
+        gap: 8px;
+    }
+
+    .role-toggle {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        flex: 1;
+    }
+
+    .role-icon {
+        display: none;
+    }
+
+    .form-container {
+        padding: 30px 20px;
+        min-height: auto;
+    }
+
+    .auth-form {
+        position: static;
+        max-width: 100%;
+        transform: none !important;
+    }
+
+    .auth-form.active {
+        transform: none;
+    }
+
+    .auth-form h2 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 16px;
+    }
+
+    .input-wrapper {
+        border-radius: 10px;
+    }
+
+    .auth-button {
+        padding: 12px 16px;
+        font-size: 0.95rem;
+        margin-top: 20px;
+    }
+
+    .demo-info {
+        padding: 12px 20px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .auth-container {
+        padding: 12px;
+    }
+
+    .auth-card {
+        border-radius: 12px;
+    }
+
+    .auth-header {
+        padding: 24px 16px 20px;
+    }
+
+    .app-title {
+        font-size: 1.75rem;
+    }
+
+    .role-toggle {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+    }
+
+    .form-container {
+        padding: 24px 16px;
+    }
+
+    input[type='text'],
+    input[type='email'],
+    input[type='password'] {
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+}
+
+/* ==================== Dark Mode (Optional) ==================== */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --white: #1a1a2e;
+        --light-gray: #16213e;
+        --gray: #0f3460;
+        --text-dark: #eaeaea;
+        --dark-gray: #a8a8a8;
+    }
+
+    body {
+        background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+    }
+}
+
+/* ==================== Print Styles ==================== */
+@media print {
+    body {
+        background: var(--white);
+    }
+
+    .auth-card {
+        box-shadow: none;
+        border: 1px solid var(--gray);
+    }
+}

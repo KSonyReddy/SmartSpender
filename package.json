@@ -1,0 +1,16 @@
+{
+  "name": "budget-ai-app",
+  "version": "1.0.0",
+  "description": "AI-powered Budget Event Planner",
+  "main": "backend/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "npm --prefix backend run dev",
+    "install:backend": "cd backend && npm install",
+    "seed:vendors": "cd backend && node utils/seedVendors.js",
+    "setup": "cd backend && npm install"
+  },
+  "author": "",
+  "license": "ISC"
+}

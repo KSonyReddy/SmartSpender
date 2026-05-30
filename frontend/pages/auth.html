@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget AI - Login & Signup</title>
+    <link rel="stylesheet" href="../css/auth-modern.css">
+    <link rel="stylesheet" href="../css/shared-theme.css">
+</head>
+<body class="legacy-auth">
+    <div class="auth-page">
+        <div class="gradient-bg"></div>
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <h1 class="brand-logo">💰 Budget AI</h1>
+                    <h2 class="page-title">Login & Signup</h2>
+                    <p class="page-subtitle">Sign in or create an account with email and password</p>
+                </div>
+
+                <div class="role-toggle-container" style="margin-bottom:16px;">
+                    <a class="role-toggle" href="./signup.html"><span class="role-icon">📝</span> Signup</a>
+                    <a class="role-toggle active" href="./auth.html"><span class="role-icon">🔐</span> Login</a>
+                </div>
+
+                <div class="role-toggle-container">
+                    <button class="role-toggle active" type="button" data-role="user"><span class="role-icon">👤</span> User</button>
+                    <button class="role-toggle" type="button" data-role="vendor"><span class="role-icon">🏪</span> Vendor</button>
+                </div>
+
+                <div class="form-tabs" style="margin-top: 15px;">
+                    <button class="form-tab-btn active" data-form="signup">📝 Sign Up</button>
+                    <button class="form-tab-btn" data-form="login">🔐 Login</button>
+                </div>
+
+                <div class="form-container">
+                    <form id="signupForm" class="auth-form active" method="POST">
+                        <h2>Create Account</h2>
+
+                    <!-- Name Field -->
+                    <div class="form-group">
+                        <label for="signupName">Full Name</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">👤</span>
+                            <input
+                                type="text"
+                                id="signupName"
+                                name="name"
+                                class="form-input"
+                                placeholder="John Doe"
+                                required
+                            />
+                        </div>
+                        <span class="error-message" id="nameError"></span>
+                    </div>
+
+                    <!-- Email Field -->
+                    <div class="form-group">
+                        <label for="signupEmail">Email Address</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">✉️</span>
+                            <input
+                                type="email"
+                                id="signupEmail"
+                                name="email"
+                                class="form-input"
+                                placeholder="john@example.com"
+                                required
+                            />
+                        </div>
+                        <span class="error-message" id="emailError"></span>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🔐</span>
+                            <input
+                                type="password"
+                                id="signupPassword"
+                                name="password"
+                                class="form-input"
+                                placeholder="Minimum 6 characters"
+                                required
+                            />
+                            <button class="password-toggle" type="button">👁️</button>
+                        </div>
+                        <span class="error-message" id="passwordError"></span>
+                        <div class="password-strength">
+                            <div class="strength-bar"></div>
+                            <span class="strength-text">Password strength</span>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary btn-block auth-button">
+                        <span class="btn-text">Create Account</span>
+                        <span class="btn-loader" style="display: none;">⏳</span>
+                    </button>
+
+                    <!-- Form Message -->
+                    <div class="form-message" style="display: none;"></div>
+
+                    <!-- Toggle to Login -->
+                    <p class="form-toggle">
+                        Already have an account?
+                        <button type="button" class="toggle-link" data-form="login">Sign In</button>
+                    </p>
+                    </form>
+
+                    <form id="loginForm" class="auth-form" method="POST">
+                        <h2>Welcome Back</h2>
+
+                    <!-- Email Field -->
+                    <div class="form-group">
+                        <label for="loginEmail">Email Address</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">✉️</span>
+                            <input
+                                type="text"
+                                id="loginEmail"
+                                name="email"
+                                class="form-input"
+                                placeholder="Email or 10-digit phone"
+                                required
+                            />
+                        </div>
+                        <span class="error-message" id="loginEmailError"></span>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🔐</span>
+                            <input
+                                type="password"
+                                id="loginPassword"
+                                name="password"
+                                class="form-input"
+                                placeholder="Enter your password"
+                                required
+                            />
+                            <button class="password-toggle" type="button">👁️</button>
+                        </div>
+                        <span class="error-message" id="loginPasswordError"></span>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary btn-block auth-button">
+                        <span class="btn-text">Sign In</span>
+                        <span class="btn-loader" style="display: none;">⏳</span>
+                    </button>
+
+                    <!-- Form Message -->
+                    <div class="form-message" style="display: none;"></div>
+
+                    <!-- Toggle to Signup -->
+                    <p class="form-toggle">
+                        Don't have an account?
+                        <button type="button" class="toggle-link" data-form="signup">Create One</button>
+                    </p>
+                    </form>
+
+                    <div class="demo-info">
+                        <p><strong>Demo Credentials:</strong></p>
+                        <small>Email: demo@example.com | Password: Demo@123</small>
+                    </div>
+                </div>
+
+            <div class="features-box">
+                <h3>Why Budget AI?</h3>
+                <p>Plan events faster with AI-guided choices and secure email/password access.</p>
+                <ul class="features-list">
+                    <li>📊 Smart budget tracking</li>
+                    <li>🤖 AI-powered suggestions</li>
+                    <li>🔒 Secure & private</li>
+                </ul>
+                <div class="brand-foot">Sign in or create an account using email and password.</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/auth.js"></script>
+</body>
+</html>

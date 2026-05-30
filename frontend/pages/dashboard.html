@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget AI - Dashboard</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h1>Dashboard</h1>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="chat.html">AI Chat</a></li>
+                    <li><a href="#logout">Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <section class="stats">
+                <div class="stat-card">
+                    <h3>Total Budget</h3>
+                    <p id="totalBudget">$0.00</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Spent</h3>
+                    <p id="spent">$0.00</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Remaining</h3>
+                    <p id="remaining">$0.00</p>
+                </div>
+            </section>
+            <section class="charts">
+                <div id="budgetChart"></div>
+            </section>
+        </main>
+    </div>
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>

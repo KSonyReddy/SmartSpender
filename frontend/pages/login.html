@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Spender — Smart Event Planning</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="../css/shared-theme.css" />
+  <style>
+    :root {
+      --panel: #ffffff;
+      --surface: #fffdf8;
+      --ink: #1c1710;
+      --muted: #7a6a55;
+      --border: rgba(201,145,58,0.18);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 12% 18%, rgba(232,134,42,0.07) 0%, transparent 42%),
+        radial-gradient(circle at 88% 75%, rgba(201,145,58,0.07) 0%, transparent 38%),
+        radial-gradient(circle at 50% 50%, rgba(27,94,90,0.04) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(24px, 6vw, 80px);
+      height: 68px;
+      background: rgba(255,253,248,0.88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .brand-mark {
+      width: 34px; height: 34px;
+      background: linear-gradient(135deg, var(--saffron), var(--gold));
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      font-size: 16px; box-shadow: 0 4px 12px rgba(232,134,42,0.35);
+    }
+    .brand-name { font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; color: var(--ink); letter-spacing: -0.3px; }
+    .brand-name span { color: var(--saffron); }
+    .nav-links { display: flex; align-items: center; gap: 6px; }
+    .nav-link {
+      font-size: 0.9rem; font-weight: 500; color: var(--muted); text-decoration: none;
+      padding: 8px 16px; border-radius: 8px; transition: color 0.2s, background 0.2s;
+    }
+    .nav-link:hover { color: var(--ink); background: rgba(232,134,42,0.08); }
+    .btn-nav-login, .btn-nav-cta, .btn-primary, .btn-secondary, .btn-cta-white, .btn-cta-outline, .modal-submit {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      text-decoration: none; cursor: pointer; border: none;
+    }
+    .btn-nav-login {
+      padding: 8px 20px; border-radius: 10px; font-size: 0.9rem; font-weight: 600;
+      border: 1.5px solid var(--saffron); color: var(--saffron); background: transparent;
+    }
+    .btn-nav-login:hover { background: var(--saffron); color: #fff; }
+    .btn-nav-cta {
+      padding: 8px 22px; border-radius: 10px; font-size: 0.9rem; font-weight: 600;
+      background: linear-gradient(135deg, var(--saffron), var(--gold)); color: #fff;
+      box-shadow: 0 4px 16px rgba(232,134,42,0.30);
+    }
+    .btn-nav-cta:hover { transform: translateY(-1px); }
+
+    .hero {
+      position: relative; min-height: 100vh; display: flex; align-items: center;
+      padding: 100px clamp(24px, 8vw, 120px) 60px; overflow: hidden;
+    }
+    .hero-deco {
+      position: absolute; right: -80px; top: 50%; transform: translateY(-50%);
+      width: min(600px, 55vw); height: min(600px, 55vw); border-radius: 50%;
+      background: radial-gradient(circle, rgba(242,193,78,0.12) 0%, rgba(232,134,42,0.08) 40%, transparent 70%);
+      border: 1px solid rgba(201,145,58,0.12); pointer-events: none;
+    }
+    .hero-deco::before, .hero-deco::after {
+      content: ''; position: absolute; inset: 30px; border-radius: 50%; border: 1px solid rgba(201,145,58,0.10);
+    }
+    .hero-deco::after { inset: 60px; border-color: rgba(201,145,58,0.08); }
+    .petal { position: absolute; width: 8px; height: 8px; background: var(--saffron-lt); border-radius: 50% 0 50% 0; opacity: 0.25; animation: drift linear infinite; }
+    @keyframes drift { 0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 0.25; } 50% { opacity: 0.15; } 100% { transform: translateY(-80px) rotate(180deg) scale(0.6); opacity: 0; } }
+
+    .hero-content { position: relative; z-index: 1; max-width: 640px; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px;
+      background: rgba(232,134,42,0.10); border: 1px solid rgba(232,134,42,0.22);
+      border-radius: 999px; font-size: 0.82rem; font-weight: 600; color: var(--saffron);
+      margin-bottom: 28px; letter-spacing: 0.03em;
+    }
+    .hero-tag::before { content: '✦'; font-size: 0.7rem; }
+    .hero-h1 {
+      font-family: var(--font-display); font-size: clamp(2.6rem, 5.5vw, 4.4rem);
+      font-weight: 700; line-height: 1.06; color: var(--ink); letter-spacing: -1.5px; margin-bottom: 24px;
+    }
+    .hero-h1 em { font-style: italic; color: var(--saffron); }
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.15rem); color: var(--muted); line-height: 1.65;
+      max-width: 500px; margin-bottom: 44px; font-weight: 400;
+    }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-primary, .btn-secondary, .btn-cta-white, .btn-cta-outline {
+      padding: 14px 30px; border-radius: 14px; font-size: 1rem;
+    }
+    .btn-primary {
+      font-weight: 700; background: linear-gradient(135deg, var(--saffron) 0%, var(--gold) 100%);
+      color: #fff; box-shadow: 0 8px 28px rgba(232,134,42,0.38);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(232,134,42,0.46); }
+    .btn-secondary {
+      font-weight: 600; border: 1.5px solid var(--border); background: rgba(255,253,248,0.9); color: var(--ink-soft);
+    }
+    .btn-secondary:hover { border-color: rgba(201,145,58,0.4); background: var(--champagne); }
+    .hero-stats {
+      display: flex; gap: 36px; margin-top: 60px; padding-top: 36px; border-top: 1px solid var(--border); flex-wrap: wrap;
+    }
+    .hero-stat h3 { font-family: var(--font-display); font-size: 2rem; font-weight: 700; color: var(--saffron); line-height: 1; margin-bottom: 4px; }
+    .hero-stat p { font-size: 0.82rem; color: var(--muted); font-weight: 500; }
+
+    .section { padding: clamp(60px, 8vw, 100px) clamp(24px, 8vw, 120px); position: relative; z-index: 1; }
+    .section-label {
+      display: inline-flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); margin-bottom: 16px;
+    }
+    .section-h2 {
+      font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700; line-height: 1.1;
+      letter-spacing: -0.8px; color: var(--ink); max-width: 580px; margin-bottom: 14px;
+    }
+    .section-h2 em { font-style: italic; color: var(--saffron); }
+    .section-sub { font-size: 1rem; color: var(--muted); max-width: 480px; line-height: 1.6; margin-bottom: 56px; }
+
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .feature-card {
+      background: #fff; border: 1px solid var(--border); border-radius: 20px; padding: 32px 28px;
+      box-shadow: var(--shadow-card); transition: transform 0.25s, box-shadow 0.25s; position: relative; overflow: hidden;
+    }
+    .feature-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--saffron), var(--marigold)); opacity: 0; transition: opacity 0.25s;
+    }
+    .feature-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(28,23,16,0.12); }
+    .feature-card:hover::before { opacity: 1; }
+    .feature-icon {
+      width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 20px;
+    }
+    .fi-saffron { background: rgba(232,134,42,0.10); }
+    .fi-teal { background: rgba(27,94,90,0.10); }
+    .fi-gold { background: rgba(201,145,58,0.10); }
+    .fi-marigold { background: rgba(242,193,78,0.12); }
+    .fi-ink { background: rgba(28,23,16,0.06); }
+    .fi-warm { background: rgba(245,168,75,0.12); }
+    .feature-card h3 { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: var(--ink); margin-bottom: 10px; }
+    .feature-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; }
+
+    .how-section { background: var(--champagne); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .steps-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0; position: relative; }
+    .steps-row::before {
+      content: ''; position: absolute; top: 28px; left: 10%; right: 10%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent); pointer-events: none;
+    }
+    .step { text-align: center; padding: 16px 24px 32px; position: relative; }
+    .step-num {
+      width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--saffron), var(--gold));
+      color: #fff; font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px; box-shadow: 0 6px 20px rgba(232,134,42,0.30); position: relative; z-index: 1;
+    }
+    .step h4 { font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+    .step p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+    .religion-section { padding: clamp(40px,6vw,80px) clamp(24px,8vw,120px); }
+    .religion-chips { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 40px; }
+    .religion-chip {
+      display: inline-flex; align-items: center; gap: 10px; padding: 12px 22px; border-radius: 14px;
+      border: 1px solid var(--border); background: #fff; font-size: 0.92rem; font-weight: 600; color: var(--ink-soft);
+      box-shadow: var(--shadow-card);
+    }
+    .religion-chip:hover { border-color: rgba(232,134,42,0.35); background: var(--champagne); transform: translateY(-2px); }
+    .rchip-icon { font-size: 1.2rem; }
+
+    .cta-section { padding: clamp(60px,8vw,100px) clamp(24px,8vw,120px); }
+    .cta-card {
+      background: linear-gradient(135deg, #1C1710 0%, #2E2010 50%, #1B5E5A 100%); border-radius: 28px;
+      padding: clamp(48px, 7vw, 80px) clamp(32px, 6vw, 80px); display: flex; align-items: center; justify-content: space-between; gap: 40px;
+      flex-wrap: wrap; position: relative; overflow: hidden;
+    }
+    .cta-card::before, .cta-card::after {
+      content: ''; position: absolute; border-radius: 50%; pointer-events: none;
+    }
+    .cta-card::before { top: -40px; right: -40px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(242,193,78,0.12) 0%, transparent 70%); }
+    .cta-card::after { bottom: -60px; left: 20%; width: 220px; height: 220px; background: radial-gradient(circle, rgba(232,134,42,0.10) 0%, transparent 70%); }
+    .cta-text { position: relative; z-index: 1; }
+    .cta-text h2 {
+      font-family: var(--font-display); font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 700; color: #fff;
+      letter-spacing: -0.5px; margin-bottom: 12px; line-height: 1.15;
+    }
+    .cta-text h2 em { color: var(--marigold); font-style: italic; }
+    .cta-text p { font-size: 1rem; color: rgba(255,253,248,0.65); line-height: 1.6; }
+    .cta-actions { display: flex; gap: 14px; flex-wrap: wrap; position: relative; z-index: 1; flex-shrink: 0; }
+    .btn-cta-white { background: #fff; color: var(--ink); font-weight: 700; box-shadow: 0 6px 24px rgba(0,0,0,0.15); }
+    .btn-cta-outline { border: 1.5px solid rgba(255,255,255,0.22); background: transparent; color: rgba(255,255,255,0.88); font-weight: 600; }
+
+    footer {
+      background: var(--ink); color: rgba(255,253,248,0.55); padding: 40px clamp(24px, 8vw, 120px);
+      display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+    }
+    .footer-brand { font-family: var(--font-display); font-size: 1.1rem; color: rgba(255,253,248,0.88); font-weight: 700; }
+    .footer-brand span { color: var(--saffron-lt); }
+    footer p { font-size: 0.82rem; }
+
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(28,23,16,0.55); backdrop-filter: blur(8px); z-index: 500;
+      display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.28s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: var(--cream); border-radius: 24px; width: min(500px, 100%); box-shadow: 0 32px 80px rgba(28,23,16,0.28);
+      overflow: hidden; transform: translateY(20px) scale(0.97); transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .modal-overlay.open .modal { transform: translateY(0) scale(1); }
+    .modal-header {
+      background: linear-gradient(135deg, var(--saffron), var(--gold)); padding: 28px 28px 22px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .modal-header h3 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: #fff; }
+    .modal-header p { font-size: 0.87rem; color: rgba(255,255,255,0.78); margin-top: 4px; }
+    .modal-close {
+      width: 34px; height: 34px; border-radius: 50%; border: none; background: rgba(255,255,255,0.18); color: #fff;
+      font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;
+    }
+    .modal-close:hover { background: rgba(255,255,255,0.28); }
+    .modal-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; border-bottom: 1px solid var(--border); }
+    .mtab {
+      padding: 14px 10px; font-size: 0.85rem; font-weight: 600; color: var(--muted); background: none; border: none; cursor: pointer;
+      border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s;
+    }
+    .mtab.active { color: var(--saffron); border-bottom-color: var(--saffron); }
+    .modal-body { padding: 24px 28px 28px; }
+    .mpanel { display: none; }
+    .mpanel.active { display: block; }
+    .mfield { margin-bottom: 16px; }
+    .mfield label { display: block; font-size: 0.84rem; font-weight: 600; color: var(--ink-soft); margin-bottom: 7px; }
+    .mfield input {
+      width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 12px; font-size: 0.95rem;
+      color: var(--ink); background: #fff; outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .mfield input:focus { border-color: var(--saffron); box-shadow: 0 0 0 3px rgba(232,134,42,0.13); }
+    .modal-submit {
+      width: 100%; padding: 13px; border-radius: 13px; border: none; background: linear-gradient(135deg, var(--saffron), var(--gold));
+      color: #fff; font-size: 0.98rem; font-weight: 700; margin-top: 6px; box-shadow: 0 6px 20px rgba(232,134,42,0.30);
+    }
+    .modal-footer-link { text-align: center; margin-top: 16px; font-size: 0.85rem; color: var(--muted); }
+    .modal-footer-link a { color: var(--saffron); font-weight: 600; text-decoration: none; }
+    .modal-footer-link a:hover { text-decoration: underline; }
+    .modal-status { min-height: 18px; font-size: 0.83rem; margin-top: 10px; text-align: center; }
+    .modal-status.error { color: #c0392b; }
+    .modal-status.success { color: var(--teal); }
+
+    .fade-up { opacity: 0; animation: fadeUp 0.65s ease forwards; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+    .hero-tag { animation-delay: 0.05s; } .hero-h1 { animation-delay: 0.15s; } .hero-sub { animation-delay: 0.25s; }
+    .hero-actions { animation-delay: 0.35s; } .hero-stats { animation-delay: 0.48s; }
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 640px) {
+      .hero { padding: 90px 20px 50px; align-items: flex-start; }
+      .hero-deco { display: none; }
+      .steps-row::before { display: none; }
+      .cta-card { text-align: center; justify-content: center; }
+      .cta-actions { justify-content: center; }
+      nav .nav-link { display: none; }
+      .hero-stats { gap: 24px; }
+    }
+
+    @media (max-width: 420px) {
+      .modal { border-radius: 18px; }
+      .modal-header { padding: 22px 20px 16px; }
+      .modal-body { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="nav-brand" href="#">
+      <div class="brand-mark">🪔</div>
+      <span class="brand-name">Smart<span>Spender</span></span>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="#features">Features</a>
+      <a class="nav-link" href="#how">How it works</a>
+      
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-deco"></div>
+    <div class="petal" style="left:65%;top:20%;animation-duration:6s;animation-delay:0s;"></div>
+    <div class="petal" style="left:72%;top:60%;animation-duration:8s;animation-delay:1.5s;width:5px;height:5px;"></div>
+    <div class="petal" style="left:80%;top:35%;animation-duration:7s;animation-delay:3s;width:6px;height:6px;"></div>
+    <div class="petal" style="left:58%;top:70%;animation-duration:9s;animation-delay:2s;width:4px;height:4px;"></div>
+
+    <div class="hero-content">
+      <div class="hero-tag fade-up">Telangana event planning, simplified</div>
+      <h1 class="hero-h1 fade-up">Plan your dream event<br/>within budget.</h1>
+      <p class="hero-sub fade-up">From Nikah in Karimnagar to a grand Hindu wedding in Hyderabad — our platform finds the right venue, vendors, and budget breakdown for your culture, your city, your celebration.</p>
+      <div class="hero-actions fade-up">
+        <a class="btn-primary" href="#" onclick="openModal('user-signup'); return false;">✦ Start Planning Free</a>
+        <a class="btn-primary" href="#" onclick="openModal('vendor-login'); return false;">🏪 Vendor Login</a>
+      </div>
+      <div class="hero-stats fade-up">
+        <div class="hero-stat"><h3>500+</h3><p>Vendors across Telangana</p></div>
+        <div class="hero-stat"><h3>4</h3><p>Religion-aware planning</p></div>
+        <div class="hero-stat"><h3>₹0</h3><p>Planning fee, always free</p></div>
+        <div class="hero-stat"><h3>30 km</h3><p>Vendor search radius</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="features">
+    <div class="section-label">✦ What we do</div>
+    <h2 class="section-h2 reveal">Everything your event needs, <em>intelligently.</em></h2>
+    <p class="section-sub reveal">We handle the research. You enjoy the celebration.</p>
+    <div class="features-grid">
+      <div class="feature-card reveal"><div class="feature-icon fi-saffron">🏛️</div><h3>Venue-First Planning</h3><p>We lock the right venue first — in your exact city or within 30 km — before recommending a single vendor.</p></div>
+      <div class="feature-card reveal"><div class="feature-icon fi-teal">🤖</div><h3>Agent Chat Planner</h3><p>Have a real conversation. Tell us your budget, guest count, date, and religion — we build a complete event plan in minutes.</p></div>
+      <div class="feature-card reveal"><div class="feature-icon fi-gold">💰</div><h3>Smart Budget Breakdown</h3><p>See planned vs confirmed costs side-by-side. Know exactly how much each vendor costs relative to your total budget before you commit.</p></div>
+      <div class="feature-card reveal"><div class="feature-icon fi-marigold">🕌</div><h3>Religion-Aware</h3><p>We recommend the right venue language and vendors for Hindu, Muslim, Christian, and Jain events.</p></div>
+      <div class="feature-card reveal"><div class="feature-icon fi-ink">📍</div><h3>Local to Statewide Search</h3><p>If a category has no vendors in your city, we silently search nearby cities and state-wide.</p></div>
+      <div class="feature-card reveal"><div class="feature-icon fi-warm">📸</div><h3>Vendor Portfolios</h3><p>Browse vendor work photos before booking. Vendors upload their best shots; you decide who matches your vision and taste.</p></div>
+    </div>
+  </section>
+
+  <section class="section how-section" id="how">
+    <div class="section-label">✦ Simple process</div>
+    <h2 class="section-h2 reveal">Four steps to your <em>perfect event.</em></h2>
+    <p class="section-sub reveal">No spreadsheets. No phone calls. No stress.</p>
+    <div class="steps-row">
+      <div class="step reveal"><div class="step-num">1</div><h4>Tell us your event</h4><p>City, date, guest count, religion, event type, and total budget.</p></div>
+      <div class="step reveal"><div class="step-num">2</div><h4>Lock the venue</h4><p>We search locally first. If nothing fits, we ask before expanding to nearby cities.</p></div>
+      <div class="step reveal"><div class="step-num">3</div><h4>Get vendor shortlist</h4><p>Caterers, decorators, photographers, DJ, priest — all within your budget, ranked by rating and availability.</p></div>
+      <div class="step reveal"><div class="step-num">4</div><h4>Book & track</h4><p>Send booking requests. Vendors confirm with their final price. Your budget tracker updates in real time.</p></div>
+    </div>
+  </section>
+
+  <section class="religion-section section reveal">
+    <div class="section-label">✦ Cultural intelligence</div>
+    <h2 class="section-h2">Planning that <em>understands</em> your traditions.</h2>
+    <p class="section-sub">Every religion has unique venues, rituals, and vendor requirements. We get the difference.</p>
+    <div class="religion-chips">
+      <div class="religion-chip"><span class="rchip-icon">🪔</span> Hindu Wedding · Mandapam · Priest / Pandit · Nadaswaram</div>
+      <div class="religion-chip"><span class="rchip-icon">🕌</span> Muslim Nikah · Hotel Banquet · Open Ground · Maulvi / Qazi</div>
+      <div class="religion-chip"><span class="rchip-icon">⛪</span> Christian Wedding · Church Hall · Pastor / Father · Garden</div>
+      <div class="religion-chip"><span class="rchip-icon">🌸</span> Jain Ceremony · Dharamshala · Veg-only Catering</div>
+      <div class="religion-chip"><span class="rchip-icon">🎊</span> Birthdays · Christenings · Corporate · All celebrations</div>
+    </div>
+  </section>
+
+  <footer>
+    <div><div class="footer-brand">Budget<span>AI</span></div><p style="margin-top:6px;">Smart event planning for Telangana</p></div>
+    <p>© 2026 Smart Spender. All rights reserved.</p>
+  </footer>
+
+  <div class="modal-overlay" id="authModal" onclick="handleOverlayClick(event)">
+    <div class="modal">
+      <div class="modal-header">
+        <div><h3 id="modalTitle">Welcome Back</h3><p id="modalSub">Sign in to your account</p></div>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-tabs">
+        <button class="mtab active" id="tab-user-login" onclick="switchTab('user-login')">User Login</button>
+        <button class="mtab" id="tab-user-signup" onclick="switchTab('user-signup')">Register</button>
+        <button class="mtab" id="tab-vendor-login" onclick="switchTab('vendor-login')">Vendor</button>
+      </div>
+      <div class="modal-body">
+        <div class="mpanel active" id="panel-user-login">
+          <div class="mfield"><label>Email</label><input type="email" id="ul-email" placeholder="you@example.com" /></div>
+          <div class="mfield"><label>Password</label><input type="password" id="ul-password" placeholder="Enter password" /></div>
+          <button class="modal-submit" onclick="doUserLogin()">Login →</button>
+          <div class="modal-status" id="ul-status"></div>
+          <div class="modal-footer-link">No account? <a href="#" onclick="switchTab('user-signup'); return false;">Register free</a></div>
+        </div>
+        <div class="mpanel" id="panel-user-signup">
+          <div class="mfield"><label>Full Name</label><input type="text" id="us-name" placeholder="Your full name" /></div>
+          <div class="mfield"><label>Email</label><input type="email" id="us-email" placeholder="you@example.com" /></div>
+          <div class="mfield"><label>Mobile</label><input type="tel" id="us-phone" placeholder="+91 98765 43210" /></div>
+          <div class="mfield"><label>Password</label><input type="password" id="us-password" placeholder="Min 8 characters" /></div>
+          <button class="modal-submit" onclick="doUserSignup()">Create Account →</button>
+          <div class="modal-status" id="us-status"></div>
+          <div class="modal-footer-link">Already registered? <a href="#" onclick="switchTab('user-login'); return false;">Login here</a></div>
+        </div>
+        <div class="mpanel" id="panel-vendor-login">
+          <div class="mfield"><label>Business Email</label><input type="email" id="vl-email" placeholder="vendor@example.com" /></div>
+          <div class="mfield"><label>Password</label><input type="password" id="vl-password" placeholder="Enter password" /></div>
+          <button class="modal-submit" onclick="doVendorLogin()">Login as Vendor →</button>
+          <div class="modal-status" id="vl-status"></div>
+          <div class="modal-footer-link">New vendor? <a href="./vendor-signup.html">Register your business</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => observer.observe(el));
+
+    const overlay = document.getElementById('authModal');
+    function openModal(tab) { overlay.classList.add('open'); switchTab(tab || 'user-login'); document.body.style.overflow = 'hidden'; }
+    function closeModal() { overlay.classList.remove('open'); document.body.style.overflow = ''; }
+    function handleOverlayClick(e) { if (e.target === overlay) closeModal(); }
+    function switchTab(id) {
+      document.querySelectorAll('.mtab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.mpanel').forEach(p => p.classList.remove('active'));
+      const tabEl = document.getElementById('tab-' + id);
+      const panelEl = document.getElementById('panel-' + id);
+      if (tabEl) tabEl.classList.add('active');
+      if (panelEl) panelEl.classList.add('active');
+      const titles = {
+        'user-login': ['Welcome Back', 'Sign in to plan your event'],
+        'user-signup': ['Create Account', 'Start planning for free'],
+        'vendor-login': ['Vendor Portal', 'Manage your bookings & profile'],
+      };
+      const t = titles[id] || ['Budget AI', ''];
+      document.getElementById('modalTitle').textContent = t[0];
+      document.getElementById('modalSub').textContent = t[1];
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+    const API = '/api';
+    function setStatus(id, msg, type) { const el = document.getElementById(id); if (!el) return; el.textContent = msg; el.className = 'modal-status' + (type ? ' ' + type : ''); }
+    function isValidEmail(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email || '').trim()); }
+    function normalizePhone(value) { return String(value || '').replace(/\D/g, '').replace(/^91(\d{10})$/, '$1').trim(); }
+
+    async function doUserLogin() {
+      const email = document.getElementById('ul-email').value.trim();
+      const password = document.getElementById('ul-password').value;
+      if (!email || !password) return setStatus('ul-status','Please fill all fields','error');
+      setStatus('ul-status','Logging in…','');
+      try {
+        const res = await fetch(API + '/auth/login', { method:'POST', credentials:'include', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ email, password, role:'user' }) });
+        const json = await res.json();
+        if (json.success) { setStatus('ul-status','✓ Success! Redirecting…','success'); setTimeout(() => { window.location.href = './ai-dashboard.html'; }, 700); }
+        else setStatus('ul-status', json.message || 'Login failed', 'error');
+      } catch(e) { setStatus('ul-status','Network error. Please try again.','error'); }
+    }
+
+    async function doUserSignup() {
+      const name = document.getElementById('us-name').value.trim();
+      const email = document.getElementById('us-email').value.trim();
+      const phone = normalizePhone(document.getElementById('us-phone').value.trim());
+      const password = document.getElementById('us-password').value;
+      if (!name || !email || !password) return setStatus('us-status','Please fill all required fields','error');
+      if (!isValidEmail(email)) return setStatus('us-status','Please enter a valid email address','error');
+      if (password.length < 6) return setStatus('us-status','Password must be at least 6 characters','error');
+      if (phone && !/^\d{10}$/.test(phone)) return setStatus('us-status','Phone must be a valid 10-digit number','error');
+      setStatus('us-status','Creating account…','');
+      try {
+        const res = await fetch(API + '/auth/signup', { method:'POST', credentials:'include', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ name, email, phone, password, role:'user' }) });
+        const json = await res.json();
+        if (json.success) { setStatus('us-status','✓ Account created! Redirecting…','success'); setTimeout(() => { window.location.href = './ai-dashboard.html'; }, 800); }
+        else setStatus('us-status', json.message || 'Signup failed', 'error');
+      } catch(e) { setStatus('us-status','Network error. Please try again.','error'); }
+    }
+
+    async function doVendorLogin() {
+      const email = document.getElementById('vl-email').value.trim();
+      const password = document.getElementById('vl-password').value;
+      if (!email || !password) return setStatus('vl-status','Please fill all fields','error');
+      setStatus('vl-status','Logging in…','');
+      try {
+        const res = await fetch(API + '/auth/vendor/login', { method:'POST', credentials:'include', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ email, password }) });
+        const json = await res.json();
+        if (json.success) { setStatus('vl-status','✓ Success! Redirecting…','success'); setTimeout(() => { window.location.href = './vendor-dashboard.html'; }, 700); }
+        else setStatus('vl-status', json.message || 'Login failed', 'error');
+      } catch(e) { setStatus('vl-status','Network error. Please try again.','error'); }
+    }
+
+    (async function checkSession() {
+      try {
+        const r = await fetch(API + '/auth/session', { credentials: 'include' });
+        const j = await r.json();
+        if (j.success && j.data?.role === 'vendor') window.location.replace('./vendor-dashboard.html');
+        else if (j.success && j.data?.role === 'user') window.location.replace('./ai-dashboard.html');
+      } catch(e) {}
+    })();
+  </script>
+</body>
+</html>

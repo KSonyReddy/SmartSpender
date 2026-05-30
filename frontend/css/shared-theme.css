@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --saffron: #E8862A;
+  --saffron-lt: #F5A84B;
+  --gold: #C9913A;
+  --marigold: #F2C14E;
+  --champagne: #FAF3E7;
+  --cream: #FFFDF8;
+  --ink: #1C1710;
+  --ink-soft: #3D2E1A;
+  --muted: #7A6A55;
+  --teal: #1B5E5A;
+  --teal-lt: #2A8A84;
+  --border: rgba(201,145,58,0.18);
+  --shadow-warm: 0 8px 40px rgba(232,134,42,0.14);
+  --shadow-card: 0 2px 20px rgba(28,23,16,0.09);
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --bg: #FFFDF8;
+  --panel: #FFFFFF;
+  --text: #1C1710;
+  --sidebar: #1C1710;
+  --sidebar-hover: rgba(255,255,255,0.08);
+  --accent: #E8862A;
+  --accent-dark: #C9913A;
+  --blue: #E8862A;
+  --blue-dark: #C9913A;
+  --chip: #FFF7ED;
+  --danger: #C0392B;
+  --warn: #C9913A;
+  --bad: #C0392B;
+  --card: #FFFFFF;
+  --gold: #C9913A;
+  --shadow: 0 2px 20px rgba(28,23,16,0.09);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--cream);
+}
+
+h1, h2, h3, h4, .brand-name, .sidebar-brand, .chat-header h2, .section-h2, .feature-card h3 {
+  font-family: var(--font-display);
+}
+
+a { color: var(--saffron); }
+
+.btn,
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+.btn,
+.btn-primary,
+.btn-secondary,
+.btn-cta-white,
+.btn-cta-outline,
+button.primary,
+button[type='submit'] {
+  border-radius: 14px;
+}
+
+.card,
+.feature-card,
+.stat-card,
+.vendor-card,
+.auth-card,
+.login-card,
+.modal,
+.modal-card,
+.welcome-card,
+.section,
+.content .card,
+.topbar,
+.sidebar,
+.chat-header {
+  box-shadow: var(--shadow-card);
+}
+
+.nav-link.active,
+.btn.primary,
+.btn-primary,
+.btn-nav-cta,
+.booking-btn-submit,
+.status-confirmed,
+.status-completed {
+  background: linear-gradient(135deg, var(--saffron), var(--gold));
+}

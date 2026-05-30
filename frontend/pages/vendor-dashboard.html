@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vendor Dashboard - Event Budget AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/vendor-dashboard.css" />
+  <link rel="stylesheet" href="../css/shared-theme.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">EventBudget Vendor</div>
+      <nav class="sidebar-nav">
+        <button class="nav-link active" data-section="overview">📊 Dashboard Overview</button>
+        <button class="nav-link" data-section="bookings">📅 Bookings <span class="badge" id="pendingBadge">0</span></button>
+        <button class="nav-link" data-section="calendar">🗓️ Calendar View</button>
+        <button class="nav-link" data-section="availability">⏰ Availability / Slots</button>
+        <button class="nav-link" data-section="profile">👤 My Profile</button>
+        <button class="nav-link" data-section="menu" id="menuNavBtn" style="display:none;">🍽️ My Menu Card</button>
+        <button class="nav-link" data-section="reviews">⭐ Customer Reviews</button>
+        <button class="nav-link logout-link" id="logoutBtn">🚪 Logout</button>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <button class="hamburger" id="hamburgerBtn">☰</button>
+        <h1 id="sectionTitle">Dashboard Overview</h1>
+        <div class="vendor-chip" id="vendorChip">Loading vendor...</div>
+      </header>
+
+      <section class="section active" id="overviewSection">
+        <div class="welcome-card">
+          <div>
+            <h2 id="welcomeTitle">Hello, Vendor</h2>
+            <p id="welcomeSub">City • Category</p>
+          </div>
+          <span class="verify-badge" id="verifyBadge">Unverified</span>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <p>Total Bookings</p>
+            <h3 id="statTotal">0</h3>
+          </article>
+          <article class="stat-card">
+            <p>Confirmed</p>
+            <h3 id="statConfirmed">0</h3>
+          </article>
+          <article class="stat-card">
+            <p>Pending</p>
+            <h3 id="statPending">0</h3>
+          </article>
+        </div>
+
+        <div class="card">
+          <h3>Recent 5 Bookings</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Customer</th>
+                  <th>Event Type</th>
+                  <th>Guests</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="recentBookingsBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="bookingsSection">
+        <div class="card">
+          <h3>Bookings</h3>
+          <div class="filter-bar">
+            <select id="filterStatus">
+              <option value="">All Status</option>
+              <option value="Pending">Pending</option>
+              <option value="Confirmed">Confirmed</option>
+              <option value="Cancelled">Cancelled</option>
+              <option value="Completed">Completed</option>
+            </select>
+            <input type="date" id="filterStartDate" />
+            <input type="date" id="filterEndDate" />
+            <input type="text" id="filterEventType" placeholder="Event Type" />
+            <button class="btn" id="applyFiltersBtn">Apply</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Booking ID</th>
+                  <th>Customer Name</th>
+                  <th>Phone</th>
+                  <th>Event Type</th>
+                  <th>Event Date</th>
+                  <th>Time Slot</th>
+                  <th>Guests</th>
+                  <th>Price</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="bookingsBody"></tbody>
+            </table>
+          </div>
+          <div class="pagination" id="bookingsPagination"></div>
+        </div>
+      </section>
+
+      <section class="section" id="calendarSection">
+        <div class="calendar-layout">
+          <div class="card">
+            <div class="calendar-head">
+              <button class="btn btn-light" id="prevMonthBtn">←</button>
+              <h3 id="calendarMonthLabel">Month YYYY</h3>
+              <button class="btn btn-light" id="nextMonthBtn">→</button>
+            </div>
+            <div id="calendarGrid" class="calendar-grid"></div>
+          </div>
+          <div class="card day-panel">
+            <h3 id="selectedDateLabel">Select a date</h3>
+            <div id="dayBookingsList" class="day-bookings-list"></div>
+            <button class="btn" id="markUnavailableBtn">Mark as Unavailable</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="availabilitySection">
+        <div class="card">
+          <div class="calendar-head">
+            <button class="btn btn-light" id="prevWeekBtn">←</button>
+            <h3 id="weekLabel">Week</h3>
+            <button class="btn btn-light" id="nextWeekBtn">→</button>
+          </div>
+          <div id="availabilityGrid" class="availability-grid"></div>
+          <div class="slot-legend">
+            <span>🟢 Available</span>
+            <span>🔴 Booked</span>
+            <span>⚫ Blackout</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="profileSection">
+        <div class="card">
+          <h3>My Profile</h3>
+          <form id="profileForm">
+            <div class="profile-grid">
+              <div>
+                <label>Business Name</label>
+                <input type="text" id="profileBusinessName" readonly />
+              </div>
+              <div>
+                <label>Email</label>
+                <input type="email" id="profileEmail" readonly />
+              </div>
+              <div>
+                <label>Phone</label>
+                <input type="text" id="profilePhone" />
+              </div>
+              <div>
+                <label>WhatsApp</label>
+                <input type="text" id="profileWhatsapp" />
+              </div>
+              <div>
+                <label>Pricing (Base Price)</label>
+                <input type="number" id="profileBasePrice" />
+              </div>
+              <div>
+                <label>Pricing Unit</label>
+                <select id="profilePricingUnit">
+                  <option value="per_plate">per plate</option>
+                  <option value="per_hour">per hour</option>
+                  <option value="per_day">per day</option>
+                  <option value="per_event">per event</option>
+                  <option value="lump_sum">lump sum</option>
+                </select>
+              </div>
+              <div>
+                <label>Working Hours Start</label>
+                <input type="time" id="profileWorkingStart" />
+              </div>
+              <div>
+                <label>Working Hours End</label>
+                <input type="time" id="profileWorkingEnd" />
+              </div>
+            </div>
+
+            <label>Amenities (comma separated)</label>
+            <input type="text" id="profileAmenities" />
+
+            <label>Description</label>
+            <textarea id="profileDescription" rows="4"></textarea>
+
+            <button class="btn" type="submit">Save Profile</button>
+          </form>
+        </div>
+
+        <div class="card profile-card" id="portfolioSection">
+          <h3>📸 Work Portfolio</h3>
+          <p class="hint">Upload photos of your past work. Customers see these before booking you. (Max 20 images)</p>
+
+          <div id="portfolioGrid" class="portfolio-grid"></div>
+
+          <div class="portfolio-upload-area" id="portfolioUploadArea">
+            <input type="file" id="portfolioFileInput" accept="image/*" multiple style="display:none">
+            <button class="btn primary" type="button" onclick="document.getElementById('portfolioFileInput').click()">
+              + Add Work Photos
+            </button>
+            <span id="portfolioUploadStatus"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="menuSection">
+        <div class="card">
+          <h3>🍽️ My Menu Card</h3>
+          <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">
+            Customers see this menu when they tap "View Menu" on your vendor card.
+            Keep it updated to win more bookings.
+          </p>
+          <div class="profile-grid" style="margin-bottom:20px;">
+            <div>
+              <label>Per Plate Base Price (₹)</label>
+              <input type="number" id="menuBasePrice" placeholder="e.g. 350" min="0" />
+            </div>
+            <div>
+              <label>Total Menu Items</label>
+              <input type="number" id="menuTotalItems" placeholder="e.g. 25" min="0" />
+            </div>
+          </div>
+
+          <h4 style="margin-bottom:10px;">Economy Package</h4>
+          <div class="profile-grid" style="margin-bottom:8px;">
+            <div><label>Price per Plate (₹)</label><input type="number" id="menuEconomyPrice" placeholder="e.g. 250" /></div>
+            <div><label>Description</label><input type="text" id="menuEconomyDesc" placeholder="e.g. 12-item South Indian Thali" /></div>
+          </div>
+          <label>Items (one per line)</label>
+          <textarea id="menuEconomyItems" rows="4" placeholder="Rice&#10;Sambar&#10;Rasam&#10;2 Curries&#10;Papad&#10;Pickle&#10;Curd"></textarea>
+
+          <h4 style="margin:16px 0 10px;">Standard Package</h4>
+          <div class="profile-grid" style="margin-bottom:8px;">
+            <div><label>Price per Plate (₹)</label><input type="number" id="menuStandardPrice" placeholder="e.g. 450" /></div>
+            <div><label>Description</label><input type="text" id="menuStandardDesc" placeholder="e.g. 20-item Telugu Feast" /></div>
+          </div>
+          <label>Items (one per line)</label>
+          <textarea id="menuStandardItems" rows="4" placeholder="Rice&#10;3 Curries&#10;Dal&#10;Sambar&#10;Rasam&#10;Raita&#10;Papad&#10;Sweet&#10;Pickle&#10;Curd&#10;Buttermilk"></textarea>
+
+          <h4 style="margin:16px 0 10px;">Premium Package</h4>
+          <div class="profile-grid" style="margin-bottom:8px;">
+            <div><label>Price per Plate (₹)</label><input type="number" id="menuPremiumPrice" placeholder="e.g. 700" /></div>
+            <div><label>Description</label><input type="text" id="menuPremiumDesc" placeholder="e.g. 30-item Grand Banquet" /></div>
+          </div>
+          <label>Items (one per line)</label>
+          <textarea id="menuPremiumItems" rows="4" placeholder="Rice&#10;5 Curries&#10;Dal&#10;Sambar&#10;Rasam&#10;2 Sweets&#10;Starter&#10;Halwa&#10;Ice Cream&#10;Pickle&#10;Papad&#10;Curd&#10;Buttermilk"></textarea>
+
+          <button class="btn" type="button" id="saveMenuBtn" style="margin-top:16px;">💾 Save Menu Card</button>
+          <div id="menuSaveStatus" style="font-size:0.83rem;margin-top:8px;color:var(--ok);"></div>
+        </div>
+      </section>
+
+      <section class="section" id="reviewsSection">
+        <div class="card">
+          <h3>Customer Reviews</h3>
+          <div id="reviewsList" class="reviews-list"></div>
+        </div>
+        <div class="card">
+          <h3>Internal Notes (from bookings)</h3>
+          <div id="internalNotesList" class="reviews-list"></div>
+        </div>
+      </section>
+
+      <!-- Bookings values/earnings section removed per request -->
+    </main>
+  </div>
+
+  <div class="modal hidden" id="cancelModal">
+    <div class="modal-card">
+      <h3>Cancel Booking</h3>
+      <input type="text" id="cancelReason" placeholder="Reason for cancellation" />
+      <input type="number" id="cancelRefundAmount" placeholder="Refund amount" min="0" />
+      <div class="modal-actions">
+        <button class="btn btn-light" id="cancelModalClose">Close</button>
+        <button class="btn btn-danger" id="cancelModalSubmit">Cancel Booking</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal hidden" id="threadModal">
+    <div class="modal-card thread-modal-card">
+      <h3>Customer chat</h3>
+      <p class="thread-modal-sub" id="threadModalSub">Booking · coordinate menus, décor references, timings (refreshes every 15s while open).</p>
+      <div class="thread-messages" id="threadMessages"></div>
+      <div class="thread-compose">
+        <textarea id="threadInput" placeholder="Type a message or use the 📎 button to attach an image..."></textarea>
+        <div style="display:flex;gap:6px;margin-top:6px;">
+          <label style="cursor:pointer;padding:8px 12px;border:1px solid #e5e7eb;border-radius:8px;background:#fff;font-size:12px;font-weight:600;">
+            📎 Image
+            <input type="file" id="threadImageInput" accept="image/*" style="display:none;">
+          </label>
+          <button type="button" class="btn" id="threadSendBtn" style="flex:1;">Send</button>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-light" id="threadModalClose">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="spinner-overlay hidden" id="globalLoader">Loading...</div>
+  <div class="toast" id="toast"></div>
+
+  <script src="../js/vendor-dashboard.js"></script>
+</body>
+</html>

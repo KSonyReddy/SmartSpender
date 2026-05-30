@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - Budget AI</title>
+    <link rel="stylesheet" href="../css/auth-modern.css">
+</head>
+<body class="signup-page">
+    <div class="auth-page">
+        <!-- Background Gradient -->
+        <div class="gradient-bg"></div>
+
+        <!-- Auth Container -->
+        <div class="auth-container">
+            <!-- Card -->
+            <div class="auth-card">
+                <!-- Header -->
+                <div class="auth-header">
+                    <h1 class="brand-logo">💰 Budget AI</h1>
+                    <h2 class="page-title">Create Your Account</h2>
+                    <p class="page-subtitle">Sign up with your email and password</p>
+                </div>
+
+
+
+                <!-- Alert Messages -->
+                <div class="alert alert-error" id="errorAlert" style="display: none;"></div>
+                <div class="alert alert-success" id="successAlert" style="display: none;"></div>
+
+                <!-- Signup Form -->
+                <form id="signupForm" class="auth-form">
+                    <!-- Name Field -->
+                    <div class="form-group">
+                        <label for="name" class="form-label">
+                            <span class="label-icon">👤</span>
+                            Full Name
+                        </label>
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            class="form-input"
+                            placeholder="John Doe"
+                            required
+                        />
+                        <span class="error-text" id="nameError"></span>
+                    </div>
+
+                    <!-- Email Field -->
+                    <div class="form-group">
+                        <label for="email" class="form-label">
+                            <span class="label-icon">✉️</span>
+                            Email Address
+                        </label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            class="form-input"
+                            placeholder="you@example.com"
+                            required
+                        />
+                        <span class="error-text" id="emailError"></span>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="form-group">
+                        <label for="password" class="form-label">
+                            <span class="label-icon">🔒</span>
+                            Password
+                        </label>
+                        <div class="password-wrapper">
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="form-input"
+                                placeholder="Minimum 6 characters"
+                                required
+                            />
+                            <button type="button" class="password-toggle">
+                                👁️
+                            </button>
+                        </div>
+                        <span class="error-text" id="passwordError"></span>
+                        <div class="password-strength">
+                            <div class="strength-bar" id="strengthBar"></div>
+                            <span class="strength-text" id="strengthText">Password strength</span>
+                        </div>
+                    </div>
+
+                    <!-- Terms Checkbox -->
+                    <div class="form-group checkbox-group">
+                        <input
+                            type="checkbox"
+                            id="terms"
+                            name="terms"
+                            required
+                        />
+                        <label for="terms" class="checkbox-label">
+                            I agree to the Terms of Service and Privacy Policy
+                        </label>
+                        <span class="error-text" id="termsError"></span>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary btn-block" id="submitBtn">
+                        <span class="btn-text">Create Account</span>
+                        <span class="btn-loader" style="display: none;">⏳</span>
+                    </button>
+
+                    <!-- Loading State -->
+                    <div id="loadingState" class="loading-state" style="display: none;">
+                        <div class="spinner"></div>
+                        <p>Creating your account...</p>
+                    </div>
+                </form>
+
+                <!-- Footer -->
+                <div class="auth-footer">
+                    <p class="footer-text">
+                        Already have an account?
+                        <a href="./login.html" class="link">Sign In</a>
+                    </p>
+                    <p class="footer-text" style="margin-top:6px;">
+                        Registering a business?
+                        <a href="./vendor-signup.html" class="link">Vendor Sign up</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/signup.js"></script>
+</body>
+</html>

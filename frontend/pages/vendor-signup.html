@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vendor Registration - Budget AI</title>
+  <link rel="stylesheet" href="../css/auth-modern.css" />
+  <style>
+    .vendor-signup-shell {
+      max-width: 1100px;
+      width: 100%;
+      grid-template-columns: 1fr !important;
+    }
+
+    .vendor-signup-card {
+      padding: 1.5rem;
+    }
+
+    .step-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+      color: var(--text-light);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .step-progress {
+      width: 100%;
+      height: 10px;
+      border-radius: 9999px;
+      background: #dbe3f5;
+      overflow: hidden;
+      margin-bottom: 1.25rem;
+    }
+
+    .step-progress-fill {
+      height: 100%;
+      width: 25%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transition: width 0.25s ease-in-out;
+    }
+
+    .step-panel {
+      display: none;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+
+    .step-panel.active {
+      display: block;
+    }
+
+    .section-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.75rem;
+    }
+
+    .textarea-input {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .option-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.5rem;
+      margin-top: 0.35rem;
+    }
+
+    .option-chip {
+      border: 1px solid var(--gray);
+      border-radius: 10px;
+      background: #fff;
+      padding: 0.5rem 0.65rem;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.9rem;
+      color: var(--text);
+      cursor: pointer;
+      user-select: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .option-chip:hover {
+      border-color: var(--primary);
+    }
+
+    .option-chip input[type="checkbox"],
+    .option-chip input[type="radio"] {
+      accent-color: var(--primary);
+    }
+
+    .inline-row {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .field-error {
+      color: var(--error);
+      font-size: 0.82rem;
+      margin-top: 0.15rem;
+      min-height: 1rem;
+    }
+
+    .form-input.invalid,
+    .form-select.invalid,
+    textarea.invalid {
+      border-color: var(--error) !important;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12) !important;
+    }
+
+    .password-meter {
+      margin-top: 0.35rem;
+    }
+
+    .password-meter-bar {
+      height: 7px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .password-meter-fill {
+      height: 100%;
+      width: 0%;
+      background: #ef4444;
+      transition: width 0.2s ease, background-color 0.2s ease;
+    }
+
+    .password-meter-text {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      margin-top: 0.25rem;
+    }
+
+    .step-actions {
+      margin-top: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+
+
+    .btn-secondary {
+      background: #edf2ff;
+      color: var(--primary-dark);
+      border: 1px solid #ccd8ff;
+    }
+
+    .form-error-banner {
+      display: none;
+      margin: 0.5rem 0 1rem;
+      background: #fee2e2;
+      border: 1px solid #fecaca;
+      color: #991b1b;
+      border-radius: 8px;
+      padding: 0.75rem;
+      font-size: 0.92rem;
+    }
+
+    .note-box {
+      margin-top: 0.5rem;
+      background: #eef6ff;
+      border: 1px solid #d8e7ff;
+      color: #274b8a;
+      border-radius: 8px;
+      padding: 0.65rem 0.75rem;
+      font-size: 0.88rem;
+    }
+
+    @media (max-width: 900px) {
+      .auth-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .grid-2,
+      .grid-3,
+      .option-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .vendor-signup-card {
+        padding: 1rem;
+      }
+
+      .step-actions {
+        flex-direction: column-reverse;
+      }
+
+      .step-actions .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-page">
+    <div class="gradient-bg"></div>
+
+    <div class="auth-container vendor-signup-shell">
+      <div class="auth-card vendor-signup-card">
+        <div class="auth-header" style="margin-bottom: 1rem;">
+          <h1 class="brand-logo">💼 Vendor Onboarding</h1>
+          <h2 class="page-title">Register Your Business</h2>
+          <p class="page-subtitle">Complete all 4 steps to submit your vendor registration</p>
+        </div>
+
+        <div class="step-meta">
+          <span id="stepLabel">Step 1 of 4</span>
+          <span id="stepTitleText">Business Identity</span>
+        </div>
+        <div class="step-progress">
+          <div class="step-progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="form-error-banner" id="formErrorBanner"></div>
+
+        <form id="vendorSignupForm" class="auth-form" novalidate>
+          <section class="step-panel active" data-step="1">
+            <h3 class="section-title">STEP 1 — Business Identity</h3>
+
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label" for="businessName">Business Name</label>
+                <input class="form-input" type="text" id="businessName" name="businessName" required />
+                <div class="field-error" id="businessNameError"></div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="ownerName">Owner Full Name</label>
+                <input class="form-input" type="text" id="ownerName" name="ownerName" required />
+                <div class="field-error" id="ownerNameError"></div>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label" for="phone">Phone Number</label>
+                <input class="form-input" type="tel" id="phone" name="phone" maxlength="10" required />
+                <div class="field-error" id="phoneError"></div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="whatsappNumber">WhatsApp Number</label>
+                <input class="form-input" type="tel" id="whatsappNumber" name="whatsappNumber" maxlength="10" />
+                <div class="inline-row">
+                  <label class="checkbox-label" style="display:flex; align-items:center; gap:0.4rem;">
+                    <input type="checkbox" id="sameAsPhone" /> same as phone
+                  </label>
+                </div>
+                <div class="field-error" id="whatsappNumberError"></div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="gstNumber">GST Number (optional)</label>
+              <input class="form-input" type="text" id="gstNumber" name="gstNumber" />
+              <div class="field-error" id="gstNumberError"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="businessType">Service Category</label>
+              <select class="form-select" id="businessType" name="businessType" required>
+                <option value="">Select service category</option>
+                <option value="Venue">Venue</option>
+                <option value="Catering">Catering</option>
+                <option value="Decoration">Decoration</option>
+                <option value="Photography">Photography</option>
+                <option value="DJ_Music">DJ/Music</option>
+                <option value="Priest_Pandit">Priest/Pandit</option>
+                <option value="Tent_Furniture">Tent & Furniture</option>
+                <option value="Transportation">Transportation</option>
+                <option value="Invitation_Cards">Invitation Cards</option>
+                <option value="Other">Other</option>
+              </select>
+              <div class="field-error" id="businessTypeError"></div>
+            </div>
+          </section>
+
+          <section class="step-panel" data-step="2">
+            <h3 class="section-title">STEP 2 — Location & Service Area</h3>
+
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label" for="city">City</label>
+                <select class="form-select" id="city" name="city" required>
+                  <option value="">Select city</option>
+                  <option>Hyderabad</option>
+                  <option>Warangal</option>
+                  <option>Karimnagar</option>
+                  <option>Nizamabad</option>
+                  <option>Khammam</option>
+                  <option>Nalgonda</option>
+                  <option>Mahbubnagar</option>
+                  <option>Rangareddy</option>
+                  <option>Other</option>
+                </select>
+                <div class="field-error" id="cityError"></div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="area">Area / Locality</label>
+                <input class="form-input" type="text" id="area" name="area" required />
+                <div class="field-error" id="areaError"></div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="fullAddress">Full Address</label>
+              <textarea class="form-input textarea-input" id="fullAddress" name="fullAddress"></textarea>
+              <div class="field-error" id="fullAddressError"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Cities You Cover</label>
+              <div class="option-grid">
+                <label class="option-chip"><input type="checkbox" name="citiesCovered" value="Hyderabad" /> Hyderabad</label>
+                <label class="option-chip"><input type="checkbox" name="citiesCovered" value="Warangal" /> Warangal</label>
+                <label class="option-chip"><input type="checkbox" name="citiesCovered" value="Karimnagar" /> Karimnagar</label>
+                <label class="option-chip"><input type="checkbox" name="citiesCovered" value="Nizamabad" /> Nizamabad</label>
+                <label class="option-chip"><input type="checkbox" name="citiesCovered" value="Khammam" /> Khammam</label>
+                <label class="option-chip"><input type="checkbox" name="citiesCovered" value="Nalgonda" /> Nalgonda</label>
+                <label class="option-chip"><input type="checkbox" name="citiesCovered" value="Mahbubnagar" /> Mahbubnagar</label>
+                <label class="option-chip"><input type="checkbox" name="citiesCovered" value="Rangareddy" /> Rangareddy</label>
+              </div>
+            </div>
+          </section>
+
+          <section class="step-panel" data-step="3">
+            <h3 class="section-title">STEP 3 — Service Details</h3>
+
+            <div class="form-group">
+              <label class="form-label">Supported Event Types</label>
+              <div class="option-grid">
+                <label class="option-chip"><input type="checkbox" name="supportedEventTypes" value="Wedding" /> Wedding</label>
+                <label class="option-chip"><input type="checkbox" name="supportedEventTypes" value="Reception" /> Reception</label>
+                <label class="option-chip"><input type="checkbox" name="supportedEventTypes" value="Engagement" /> Engagement</label>
+                <label class="option-chip"><input type="checkbox" name="supportedEventTypes" value="Birthday" /> Birthday</label>
+                <label class="option-chip"><input type="checkbox" name="supportedEventTypes" value="Naming Ceremony" /> Naming Ceremony</label>
+                <label class="option-chip"><input type="checkbox" name="supportedEventTypes" value="Thread Ceremony" /> Thread Ceremony</label>
+                <label class="option-chip"><input type="checkbox" name="supportedEventTypes" value="Retirement Party" /> Retirement Party</label>
+                <label class="option-chip"><input type="checkbox" name="supportedEventTypes" value="Corporate Event" /> Corporate Event</label>
+                <label class="option-chip"><input type="checkbox" name="supportedEventTypes" value="Funeral/Last Rites" /> Funeral/Last Rites</label>
+              </div>
+            </div>
+
+            <div class="grid-3">
+              <div class="form-group">
+                <label class="form-label" for="minGuests">Minimum Guests</label>
+                <input class="form-input" type="number" id="minGuests" name="minGuests" min="0" />
+                <div class="field-error" id="minGuestsError"></div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="maxGuests">Maximum Guests</label>
+                <input class="form-input" type="number" id="maxGuests" name="maxGuests" min="0" />
+                <div class="field-error" id="maxGuestsError"></div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="advanceBookingDays">Advance Booking Required (days)</label>
+                <input class="form-input" type="number" id="advanceBookingDays" name="advanceBookingDays" min="0" value="7" />
+                <div class="field-error" id="advanceBookingDaysError"></div>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label" for="basePrice">Base Price</label>
+                <input class="form-input" type="number" id="basePrice" name="basePrice" min="0" />
+                <div class="field-error" id="basePriceError"></div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="pricingUnit">Pricing Unit</label>
+                <select class="form-select" id="pricingUnit" name="pricingUnit">
+                  <option value="per_plate">per plate</option>
+                  <option value="per_hour">per hour</option>
+                  <option value="per_day">per day</option>
+                  <option value="per_event">per event</option>
+                  <option value="lump_sum">lump sum</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">Food Type</label>
+                <div class="inline-row">
+                  <label class="option-chip"><input type="checkbox" id="servesVeg" name="servesVeg" checked /> Serves Veg</label>
+                  <label class="option-chip"><input type="checkbox" id="servesNonVeg" name="servesNonVeg" /> Serves Non-Veg</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Religion Served</label>
+                <div class="inline-row">
+                  <label class="option-chip"><input type="radio" name="religionServed" value="All" checked /> All</label>
+                  <label class="option-chip"><input type="radio" name="religionServed" value="Hindu" /> Hindu</label>
+                  <label class="option-chip"><input type="radio" name="religionServed" value="Muslim" /> Muslim</label>
+                  <label class="option-chip"><input type="radio" name="religionServed" value="Christian" /> Christian</label>
+                  <label class="option-chip"><input type="radio" name="religionServed" value="Jain" /> Jain</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Amenities</label>
+              <div class="option-grid">
+                <label class="option-chip"><input type="checkbox" name="amenities" value="AC" /> AC</label>
+                <label class="option-chip"><input type="checkbox" name="amenities" value="Generator Backup" /> Generator Backup</label>
+                <label class="option-chip"><input type="checkbox" name="amenities" value="Parking" /> Parking</label>
+                <label class="option-chip"><input type="checkbox" name="amenities" value="Bridal Room" /> Bridal Room</label>
+                <label class="option-chip"><input type="checkbox" name="amenities" value="Prayer Room" /> Prayer Room</label>
+                <label class="option-chip"><input type="checkbox" name="amenities" value="Changing Room" /> Changing Room</label>
+                <label class="option-chip"><input type="checkbox" name="amenities" value="Stage" /> Stage</label>
+                <label class="option-chip"><input type="checkbox" name="amenities" value="Sound System" /> Sound System</label>
+                <label class="option-chip"><input type="checkbox" name="amenities" value="DJ Equipment" /> DJ Equipment</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Working Days</label>
+              <div class="option-grid">
+                <label class="option-chip"><input type="checkbox" name="workingDays" value="Mon" checked /> Mon</label>
+                <label class="option-chip"><input type="checkbox" name="workingDays" value="Tue" checked /> Tue</label>
+                <label class="option-chip"><input type="checkbox" name="workingDays" value="Wed" checked /> Wed</label>
+                <label class="option-chip"><input type="checkbox" name="workingDays" value="Thu" checked /> Thu</label>
+                <label class="option-chip"><input type="checkbox" name="workingDays" value="Fri" checked /> Fri</label>
+                <label class="option-chip"><input type="checkbox" name="workingDays" value="Sat" checked /> Sat</label>
+                <label class="option-chip"><input type="checkbox" name="workingDays" value="Sun" checked /> Sun</label>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label" for="workingHoursStart">Working Hours Start</label>
+                <input class="form-input" type="time" id="workingHoursStart" name="workingHoursStart" value="09:00" />
+                <div class="field-error" id="workingHoursStartError"></div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="workingHoursEnd">Working Hours End</label>
+                <input class="form-input" type="time" id="workingHoursEnd" name="workingHoursEnd" value="22:00" />
+                <div class="field-error" id="workingHoursEndError"></div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="description">Description / About (max 500 chars)</label>
+              <textarea class="form-input textarea-input" id="description" name="description" maxlength="500"></textarea>
+              <div class="field-error" id="descriptionError"></div>
+            </div>
+          </section>
+
+          <section class="step-panel" data-step="4">
+            <h3 class="section-title">STEP 4 — Account Setup</h3>
+
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label" for="otpPhone">Mobile Number for OTP</label>
+                <input class="form-input" type="tel" id="otpPhone" name="otpPhone" maxlength="10" required />
+                <div class="field-error" id="otpPhoneError"></div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="otpCode">OTP Code</label>
+                <div class="inline-row">
+                  <input class="form-input" type="text" id="otpCode" name="otpCode" maxlength="6" style="flex:1;" required />
+                  <button class="btn btn-secondary" type="button" id="sendOtpBtn">Send OTP</button>
+                </div>
+                <div class="field-error" id="otpCodeError"></div>
+              </div>
+            </div>
+
+            <div class="form-group checkbox-group">
+              <input type="checkbox" id="termsAccepted" name="termsAccepted" required />
+              <label class="checkbox-label" for="termsAccepted">I agree to the Terms & Conditions</label>
+            </div>
+            <div class="field-error" id="termsAcceptedError"></div>
+
+            <div class="note-box">
+              Password is not required. Use mobile OTP verification to complete vendor onboarding.
+            </div>
+          </section>
+
+          <div class="step-actions">
+            <button type="button" class="btn btn-secondary" id="prevBtn">Previous</button>
+            <button type="button" class="btn btn-primary" id="nextBtn">Next</button>
+            <button type="submit" class="btn btn-primary" id="submitBtn" style="display:none;">Submit Registration</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/vendor-signup.js"></script>
+</body>
+</html>
