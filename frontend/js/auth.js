@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:5002/api';
+const API_BASE_URL = 'https://smartspender-1-m3j5.onrender.com';
 const FETCH_TIMEOUT_MS = 30000;
 
 function redirectToLogin() {

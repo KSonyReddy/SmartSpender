@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:5002';
+const BASE_URL = 'https://smartspender-1-m3j5.onrender.com';
 const API_BASE = `${BASE_URL}/api`;
 const TIMEOUT_MS = 30000;
 const MAP_ENABLED = false;

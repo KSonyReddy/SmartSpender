@@ -1,4 +1,4 @@
-const BASE = 'http://localhost:5002';
+const BASE = 'https://smartspender-1-m3j5.onrender.com';
 const API = `${BASE}/api`;
 
 const state = {

@@ -1,6 +1,6 @@
 // Clean, self-contained signup script
 
-const API_BASE = 'http://localhost:5002/api';
+const API_BASE = 'https://smartspender-1-m3j5.onrender.com/api';
 let signupInFlight = false;
 
 async function loadVendorOptions() {

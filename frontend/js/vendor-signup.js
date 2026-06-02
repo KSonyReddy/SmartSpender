@@ -1,5 +1,5 @@
-const API_URL = 'http://localhost:5002/api/auth/vendor/signup';
-const OTP_URL = 'http://localhost:5002/api/auth/vendor/request-otp';
+const API_URL = 'https://smartspender-1-m3j5.onrender.com/api/auth/vendor/signup';
+const OTP_URL = 'https://smartspender-1-m3j5.onrender.com/api/auth/vendor/request-otp';
 
 const state = {
   currentStep: 1,
